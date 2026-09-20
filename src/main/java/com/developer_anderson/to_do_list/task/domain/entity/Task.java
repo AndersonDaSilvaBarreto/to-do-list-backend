@@ -1,15 +1,15 @@
 package com.developer_anderson.to_do_list.task.domain.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.developer_anderson.to_do_list.task.domain.enums.TaskStatus;
+import com.developer_anderson.to_do_list.task.domain.valueobject.TaskId;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
+import java.time.Instant;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tasks")
@@ -17,9 +17,28 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Task {
-    @Id
-    @Column(name = "id")
-    @EqualsAndHashCode.Include
-    private UUID id;
+    @EmbeddedId
+    private TaskId id;
+
+    @Column(name = "name",nullable = false)
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status",nullable = false)
+    private TaskStatus status;
+
+    @Column(name = "created_at",nullable = false)
+    private Instant createdAt;
+
+    private Task(String name) {
+        this.id = TaskId.generate();
+        this.name = name;
+        this.status = TaskStatus.IN_PROGRESS;
+        this.createdAt = Instant.now();
+    }
+    public static Task create(String name) {
+        return new Task(name);
+    }
+
 
 }
