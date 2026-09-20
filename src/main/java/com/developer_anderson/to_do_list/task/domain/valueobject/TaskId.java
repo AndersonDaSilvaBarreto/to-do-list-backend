@@ -13,7 +13,8 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class TaskId {
+public class TaskId implements Comparable<TaskId> {
+    @EqualsAndHashCode.Include
     private UUID value;
 
     private TaskId(UUID id) {
@@ -28,8 +29,15 @@ public class TaskId {
         return new TaskId(id);
     }
 
+
+
     @Override
     public String toString() {
         return getValue().toString();
+    }
+
+    @Override
+    public int compareTo(TaskId other) {
+        return this.value.compareTo(other.value);
     }
 }
