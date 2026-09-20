@@ -43,4 +43,11 @@ public class TaskRepositoryImplements implements TaskRepository {
         Pageable pageable = PageRequest.of(0, limit, sort);
         return springDataTask.findAll(specs, pageable).getContent();
     }
+
+    @Override
+    public Task deleteById(TaskId id) {
+        Task task = findByid(id);
+        springDataTask.delete(task);
+        return task;
+    }
 }

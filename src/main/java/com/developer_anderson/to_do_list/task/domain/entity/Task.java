@@ -39,6 +39,9 @@ public class Task {
     public static Task create(String name) {
         return new Task(name);
     }
+    public void setStatus(TaskStatus status) {
+        this.status = Objects.requireNonNull(status);
+    }
 
 
 }

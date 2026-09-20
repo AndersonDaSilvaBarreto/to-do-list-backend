@@ -11,4 +11,5 @@ public interface TaskRepository {
     Task save(Task task);
     Task findByid(TaskId id);
     List<Task> findAll(UUID cursor, String name, TaskStatus status, int limit);
+    Task deleteById(TaskId id);
 }
